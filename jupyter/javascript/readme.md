@@ -5,8 +5,8 @@
 - docker images
   - Jupyter Image is installed of Node.js Kernel
     - The images could be used for documentation of programming with node.js and ES6
-    - Volume: /home/jovyan/work/data 
-    - Port: 8888
+    - Volume =>  /home/jovyan/work/data 
+    - Port => 8888
 
 - the command for running container
 
