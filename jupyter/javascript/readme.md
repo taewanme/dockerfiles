@@ -12,8 +12,8 @@
 
 ```bash
 docker run -itd -p 8888:8888 \
-  -v <host_path>:/home/jovyan/work/data \
-   --name jupyter taewanme/jupyter:1.0 startJupyter.sh
+-v <host_path>:/home/jovyan/work/data \
+--name jupyter taewanme/jupyter:1.0 startJupyter.sh
 ```
 
 - How to access the jupyter web site
