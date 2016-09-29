@@ -1,6 +1,6 @@
 # Dockerfile (Ubuntu 14.04) for Testing
 
-- This project maintains dockerfile developed by Taewan.kim
+-This project maintains dockerfile developed by Taewan.kim
 
 ## Docker Image
 - This dockerfile is based ubuntu 14.04 for Simple network test
@@ -8,5 +8,3 @@
 - The image built from this dockerfile could be used for simple demo of network connection between docker containers
 
 
-## github repository
-- https://github.com/taewanme/dockerfiles/tree/master/ubuntu/1404
