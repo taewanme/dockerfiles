@@ -4,8 +4,8 @@ MAINTAINER Taewan Kim <taewanme@gmail.com>
 USER root
 
 ENV MV 8
-ENV UV 31
-ENV BV 13
+ENV UV 51
+ENV BV 16
 
 ENV JDK_TAR_NAME jdk-${MV}u${UV}-linux-x64.tar.gz
 ENV JAVA_DIR_NAME jdk1.${MV}.0_${UV}
