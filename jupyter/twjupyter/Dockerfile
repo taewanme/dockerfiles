@@ -45,7 +45,7 @@ RUN  pip3 install --upgrade ${TFPY3}
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -  \
     && apt-get install -y nodejs libzmq3-dev \
     && npm install -g ijavascript \
-    && npm install -g underscore  \
+    && npm install -g underscore-node  \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
