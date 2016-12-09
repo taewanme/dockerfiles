@@ -34,7 +34,8 @@ RUN pip install --upgrade pip \
  && pip3 install Seaborn        \
  && pip install ipython[all]    \
  && pip install jupyter         \
- && pip3 install ipykernel
+ && pip3 install ipykernel      \
+ && pip3 install beautifulsoup4 
 
 ENV TFPY  https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.11.0rc1-cp27-none-linux_x86_64.whl
 ENV TFPY3 https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.11.0rc1-cp35-cp35m-linux_x86_64.whl
