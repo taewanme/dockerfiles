@@ -3,13 +3,13 @@ MAINTAINER Taewan Kim <taewanme@gmail.com>
 
 RUN apt-get update \
   &&  apt-get install -y curl apt-utils git make build-essential            \
-              libssl-dev libffi-dev zlib1g-dev libbz2-dev libreadline-dev   \
-              libsqlite3-dev python-pip python3-pip libjpeg8-dev python-dev \
+              libssl-dev libffi-dev zlib1g-dev libbz2-dev libreadline-dev libcurl4-openssl-dev  \
+              libsqlite3-dev python-pip python3-pip libjpeg8-dev python-dev r-base \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
-RUN pip install --upgrade pip \
- && python3 -m pip install --upgrade pip \
+RUN pip3 install --upgrade pip \
+ && pip2 install --upgrade pip \
  && pip install numpy               \
  && pip install pillow              \
  && pip install matplotlib          \
@@ -34,17 +34,14 @@ RUN pip install --upgrade pip \
  && pip3 install Seaborn        \
  && pip install ipython[all]    \
  && pip install jupyter         \
- && pip3 install ipykernel      \
- && pip3 install beautifulsoup4 
+ && pip3 install ipykernel
 
-ENV TFPY  https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.11.0rc1-cp27-none-linux_x86_64.whl
-ENV TFPY3 https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.11.0rc1-cp35-cp35m-linux_x86_64.whl
-RUN  pip3 install --upgrade ${TFPY3}
-#RUN pip install --upgrade ${TFPY}
+RUN pip install tensorflow
+RUN pip3 install tensorflow
 
 
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -  \
-    && apt-get install -y nodejs libzmq3-dev \
+    && apt-get install -y nodejs libzmq3-dev libcurl4-openssl-dev \
     && npm install -g ijavascript \
     && npm install -g underscore-node  \
     && apt-get clean \
@@ -56,7 +53,26 @@ COPY start-notebook.sh /usr/local/bin
 RUN chmod 755 /usr/local/bin/start-notebook.sh \
     && chown -R taewan  /usr/local/bin/start-notebook.sh
 
+
+
+RUN Rscript -e "install.packages(c(\"devtools\", \"testthat\", \"roxygen2\"), repos = c(\"http://irkernel.github.io/\", \"http://cran.rstudio.com\"))" \
+            -e "library(devtools)" \
+            -e "install_github('IRkernel/repr')" \
+            -e "install_github('IRkernel/IRdisplay')"
+RUN Rscript -e "library(devtools)" -e "install_github('IRkernel/IRkernel')"
+
 USER taewan
+RUN Rscript -e "IRkernel::installspec()"
+
+
+RUN mkdir -p /home/taewan/.jupyter
+RUN (echo "c.NotebookApp.ip = '0.0.0.0'" && \
+     echo "c.NotebookApp.open_browser = False" && \
+     echo "from IPython.lib import passwd" && \
+     echo "import os" && \
+     echo "c.NotebookApp.password = passwd('Welcome1')") \
+     > /home/taewan/.jupyter/jupyter_notebook_config.py
+
 
 RUN python3 -m ipykernel install --user \
     && ijs --ijs-install-kernel
@@ -65,6 +81,9 @@ RUN cp -rf /home/taewan/.local/share/jupyter/kernels/python3 /home/taewan/.local
   &&  sed -i 's/python3/python/g' /home/taewan/.local/share/jupyter/kernels/python2/kernel.json \
   &&  sed -i 's/Python 3/Python 2/g' /home/taewan/.local/share/jupyter/kernels/python2/kernel.json
 
-EXPOSE 8888
-VOLUME ["/home/taewan/ipython"]
+
+
+VOLUME ["/home/taewan/notebooks"]
 WORKDIR /home/taewan
+ENV PASSWORD jupyter
+EXPOSE 8888
