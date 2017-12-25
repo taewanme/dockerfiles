@@ -57,25 +57,19 @@ RUN pip3 install xlrd            \
  && pip3 install keras
 
 
-RUN useradd -m -s /bin/bash -N -u 1000 taewan
-
 COPY start-notebook.sh /usr/local/bin
-RUN chmod 755 /usr/local/bin/start-notebook.sh \
-    && chown -R taewan  /usr/local/bin/start-notebook.sh
-
-USER taewan
 
 RUN python3 -m ipykernel install --user
 
-RUN cp -rf /home/taewan/.local/share/jupyter/kernels/python3 /home/taewan/.local/share/jupyter/kernels/python2 \
-  &&  sed -i 's/python3/python/g' /home/taewan/.local/share/jupyter/kernels/python2/kernel.json \
-  &&  sed -i 's/Python 3/Python 2/g' /home/taewan/.local/share/jupyter/kernels/python2/kernel.json
+RUN cp -rf /root/.local/share/jupyter/kernels/python3 /root/.local/share/jupyter/kernels/python2 \
+  &&  sed -i 's/python3/python/g' /root/.local/share/jupyter/kernels/python2/kernel.json \
+  &&  sed -i 's/Python 3/Python 2/g' /root/.local/share/jupyter/kernels/python2/kernel.json
 
-RUN mkdir -p /home/taewan/.jupyter/
-COPY jupyter_notebook_config.py /home/taewan/.jupyter/
+RUN mkdir -p /root/.jupyter/
+COPY jupyter_notebook_config.py /root/.jupyter/
 
 EXPOSE 8888
-VOLUME ["/home/taewan/ipython"]
-WORKDIR /home/taewan
+VOLUME ["/root/ipython"]
+WORKDIR /root
 
 ENTRYPOINT ["/bin/bash", "start-notebook.sh"]
