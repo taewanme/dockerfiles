@@ -2,7 +2,7 @@ FROM ubuntu:16.04
 MAINTAINER Taewan Kim <taewanme@gmail.com>
 
 RUN apt-get update \
-  &&  apt-get install -y curl apt-utils git make build-essential            \
+  &&  apt-get install -y curl apt-utils git make build-essential wget       \
               libssl-dev libffi-dev zlib1g-dev libbz2-dev libreadline-dev   \
               libsqlite3-dev python-pip python3-pip libjpeg8-dev python-dev \
               language-pack-ko python3-dev libxml2 libxml2-dev libxslt1-dev \
@@ -36,8 +36,9 @@ RUN pip3 install xlrd            \
  && pip3 install keras           \
  && pip3 install http://download.pytorch.org/whl/cpu/torch-0.3.1-cp35-cp35m-linux_x86_64.whl  \
  && pip3 install torchvision     \
- && pip3 install --upgrade tensorflow
- 
+ && pip3 install --upgrade tensorflow \
+ && pip3 install mglearn
+
 RUN mkdir -p /root/.jupyter/
 COPY jupyter_notebook_config.py /root/.jupyter/
 
